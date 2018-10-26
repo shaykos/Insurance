@@ -1,0 +1,44 @@
+<template>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <a class="navbar-brand" route-href="dashboard">
+      <img src.bind="user.logo" width="80" height="40" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item ml-2">
+          <a class="btn btn-success active" route-href="new-order">
+            <i class="material-icons md-24" style="position: absolute;">note_add</i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            יצירת קריאה חדשה
+          </a>
+        </li>
+        <li class="nav-item ml-2">
+          <a class="btn btn-primary active" route-href="orders">
+            <i class="material-icons md-24" style="position: absolute;">
+              list_alt
+            </i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            כל הקריאות
+          </a>
+        </li>
+        <li class="nav-item ml-2">
+          <a class="btn btn-info active" route-href="calendar">
+            <i class="material-icons md-24" style="position: absolute;">
+              calendar_today
+            </i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            יומן עבודה
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <span>${user.name}</span>
+      <button type="button" class="btn btn-danger" click.delegate="logout()"><i class="material-icons md-24">exit_to_app</i></button>
+    </div>
+  </nav>
+</template>

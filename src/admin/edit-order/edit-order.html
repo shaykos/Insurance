@@ -1,0 +1,333 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <require from="../../resources/value-converters/html-date"></require>
+  <require from="../../resources/value-converters/to-string"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col-md-8 d-block mx-auto">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a class="active btn btn-default" id="pills-home-tab" data-toggle="pill" href="#order-details" role="tab"
+              aria-controls="order-details" aria-selected="true">פרטי הקריאה</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-default" id="pills-profile-tab" data-toggle="pill" href="#client-details" role="tab"
+              aria-controls="client-details" aria-selected="false">פרטי הלקוח</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-default" id="pills-profile-tab" data-toggle="pill" href="#handyman-details" role="tab"
+              aria-controls="handyman-details" aria-selected="false">תיעוד בעל מקצוע</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="order-details" role="tabpanel" aria-labelledby="pills-home-tab">
+            <form>
+              <div class="card">
+                <h5 class="card-header">עריכת פרטי קריאה - ${currentOrder.id}</h5>
+                <div class="row pr-3 pl-3">
+                  <div class="col-md-3" if.bind="user.roleId == 1 || user.roleId == 3">
+                    <div class="form-group">
+                      <label for="typeName" class="bmd-label-floating">סוג הזמנה</label>
+                      <select class="form-control" id="typeName" value.bind="currentOrder.type">
+                        <option repeat.for="type of metadata.OrderTypes" model.bind="type.id">${type.name}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="statusName" class="bmd-label-floating">סטטוס</label>
+                      <select class="form-control" id="statusName" value.bind="currentOrder.status">
+                        <option repeat.for="status of metadata.OrderStatus" model.bind="status.id" >${status.name}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="clientId" class="bmd-label-floating">ת"ז לקוח</label>
+                        <input type="text" class="form-control" id="clientId" value.bind="currentOrder.clientId"
+                          autofocus readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="claimNumber" class="bmd-label-floating">מספר תביעה</label>
+                        <input type="text" class="form-control" id="claimNumber" value.bind="currentOrder.claimNumber"
+                          readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="policyNumber" class="bmd-label-floating">מספר פוליסה</label>
+                        <input type="text" class="form-control" id="policyNumber" value.bind="currentOrder.policyNumber"
+                          readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="problemId" class="bmd-label-floating">סוג תקלה</label>
+                        <select class="form-control" id="problemId" value.bind="currentOrder.problemId">
+                          <option repeat.for="problem of metadata.Problems" model.bind="problem.id">${problem.name}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="deductible" class="bmd-label-floating">השתתפות עצמית</label>
+                        <input type="number" min="1" class="form-control" id="deductible" value.bind="currentOrder.deductible">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="businessId" class="bmd-label-floating">חברת שרברבים</label>
+                        <select class="form-control" id="businessId" value.bind="currentOrder.businessId">
+                          <option repeat.for="business of metadata.Businesses" model.bind="business.id">${business.name}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="etaDate" class="bmd-label-floating">תאריך הגעה רצוי</label>
+                        <input type="date" class="form-control date-input" id="etaDate" value.bind="currentOrder.etaDate | htmlDate"
+                          data-large-mode="true" data-format="d-m-Y" data-large-default="true">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="etaTime" class="bmd-label-floating">שעת הגעה</label>
+                        <select class="form-control" id="etaTime" value.bind="currentOrder.etaTime">
+                          <option repeat.for="hour of metadata.HoursOfWork" model.bind="hour.id">${hour.endTime} -
+                            ${hour.startTime}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-left">
+                      <button class="btn btn-primary active" click.delegate="updateOrderDetails()">שמור פרטי קריאה</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="client-details" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <form>
+              <div class="card">
+                <h5 class="card-header">פרטי לקוח</h5>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="name" class="bmd-label-floating">שם מלא</label>
+                        <input type="text" class="form-control" id="name" value.bind="currentOrder.clientName" readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="phone" class="bmd-label-floating">טלפון 1</label>
+                        <input type="text" class="form-control" id="phone" value.bind="currentOrder.phone" readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="cellPhone" class="bmd-label-floating">טלפון 2</label>
+                        <input type="text" class="form-control" id="cellPhone" value.bind="currentOrder.cellPhone"
+                          readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <div class="switch">
+                          <label>
+                            האם הכתובת זהה?
+                            <input type="checkbox" change.delegate="test($event)" checked.bind="currentOrder.isSameAddress" value.bind="currentOrder.isSameAddress">
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="city" class="bmd-label-floating">עיר</label>
+                        <input list="cities" type="text" class="form-control" id="city" value.bind="currentOrder.cityName"  blur.trigger="setCityCode()"
+                          autofocus>
+                        <datalist id="cities">
+                          <option repeat.for="city of metadata.Cities">${city.name}</option>
+                        </datalist>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="street" class="bmd-label-floating">רחוב</label>
+                        <input type="text" class="form-control" id="street" value.bind="currentOrder.street">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="streetNumber" class="bmd-label-floating">מספר</label>
+                        <input type="number" min="1" class="form-control" id="streetNumber" value.bind="currentOrder.streetNumber">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="appartment" class="bmd-label-floating">דירה</label>
+                        <input type="number" min="0" class="form-control" id="appartment" value.bind="currentOrder.appartment">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="entrance" class="bmd-label-floating">כניסה</label>
+                        <input type="text" class="form-control" id="entrance" value.bind="currentOrder.entrance">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-left">
+                      <button class="btn btn-primary active" click.delegate="updateClientAddress()">שמור פרטי לקוח</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="handyman-details" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <form>
+              <div class="card">
+                <h5 class="card-header">תיעוד בעל מקצוע</h5>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <h5>בדיקות שנערכו</h5>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" checked.bind="currentOrder.pTest"> בדיקת לחץ
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" checked.bind="currentOrder.bTest"> בלונים
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" checked.bind="currentOrder.tTest"> טרמית
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" checked.bind="currentOrder.oTest"> אחר
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col" if.bind="currentOrder.oTest == true">
+                      <div class="form-group">
+                        <label for="otherCheck">מה הבדיקה הנוספת?</label>
+                        <input type="text" class="form-control" id="otherCheck" value.bind="currentOrder.otherTestNote" autofocus>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <h5>תוצאות</h5>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <textarea class="form-control tinyMCE" id="testResults" value.bind="orderNotes.results"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <h5 class="pt-2">מה נעשה</h5>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <textarea class="form-control tinyMCE" id="actions" value.bind="orderNotes.actions"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <h5 class="pt-2">העלאת תמונות</h5>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <input type="file" multiple class="form-control" accept="image/*" change.delegate="showImage($event)" id="imageUPloader"/>
+                        <div class="card-group" id="images-upload"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <h5 class="pt-2">סיכום</h5>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <textarea class="form-control tinyMCE" id="notes" value.bind="orderNotes.summary"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label for="price">מחיר</label>
+                          <input type="number" min="${currentOrder.deductible}" value.bind="currentOrder.price"
+                            class="form-control" id="price" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" checked.bind="continueOrder.toContinue"> יש צורך בעבודת המשך?
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col" if.bind="continueOrder.toContinue == true">
+                      <div class="form-group">
+                        <label for="category" class="bmd-label-floating">סוג עבודת המשך</label>
+                        <select class="form-control" id="category" value.bind="currentOrder.categoryId">
+                          <option repeat.for="category of metadata.Categories" model.bind="category.id">${category.name}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-left">
+                      <button class="btn btn-primary active" click.delegate="saveHandymanUpdate()">עדכן תיעוד</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

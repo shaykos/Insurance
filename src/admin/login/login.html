@@ -1,0 +1,19 @@
+<template>
+    <section class="container admin-login">
+        <div class="wrapper">
+            <form name="Login_Form" class="form-signin">
+                <h3 class="form-signin-heading">ברוך הבא! יש להיכנס למערכת</h3>
+                <hr class="colorgraph"><br>
+    
+                <input type="text" class="form-control" name="Username" placeholder="שם משתמש" required="" autofocus value.bind="user.userName"/>
+                <input type="password" class="form-control" name="Password" placeholder="סיסמה" required="" value.bind="user.password"/>
+    
+                <button class="btn btn-lg btn-primary btn-block active" name="Submit" value="כניסה" click.delegate="login()">כניסה</button>
+                <br /><br />
+    
+                <!-- <div class="alert alert-success" role="alert">התחברת בהצלחה! הינך מועבר לניהול האתר</div>
+                <div class="alert alert-danger" role="alert">אחד או יותר מהפרטים שהזנת אינו תואם לרשומות</div> -->
+            </form>
+        </div>
+    </section>
+</template>

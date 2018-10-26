@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Assistant');
+body {
+    direction: rtl;
+    text-align: right !important;
+    padding-top: 68px;
+    font-family: 'Assistant', sans-serif !important;
+}
+
+.material-icons.md-12,
+.nav-pills .nav-link.md-12 {
+    font-size: 12px;
+}
+
+.material-icons.md-14,
+.nav-pills .nav-link.md-14 {
+    font-size: 14px;
+}
+
+.material-icons.md-18,
+.nav-pills .nav-link.md-18 {
+    font-size: 18px;
+}
+
+.material-icons.md-24,
+.nav-pills .nav-link.md-24 {
+    font-size: 24px;
+}
+
+.material-icons.md-36,
+.nav-pills .nav-link.md-36 {
+    font-size: 36px;
+}
+
+.material-icons.md-48,
+.nav-pills .nav-link.md-48 {
+    font-size: 48px;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+
+hr {
+    width: 100%;
+}
+
+input[type="text"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.date-input {
+    background-color: transparent !important;
+}
+
+.datedropper {
+    display: none;
+}
+
+.navbar.fixed-top {
+    z-index: 999;
+}
+
+.modal-header .close {
+    margin: -1rem auto -1rem -1rem !important;
+}
+
+.fc-event {
+    font-size: 1.2em !important;
+}
+
+.dropdown-menu{
+  left:auto !important;
+  //right:0;
+}
+

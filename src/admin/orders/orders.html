@@ -1,0 +1,159 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <require from="../../resources/value-converters/class-color"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col">
+                <h5>חיפוש קריאות</h5>
+              </div>
+              <div class="col text-left">
+                <button type="button" class="btn btn-primary" click.delegate="showSearch = false" if.bind="showSearch">
+                  <i class="material-icons">
+                    keyboard_arrow_up
+                  </i>
+                </button>
+                <button type="button" class="btn btn-primary" click.delegate="showSearch = true" if.bind="!showSearch">
+                  <i class="material-icons">
+                    keyboard_arrow_down
+                  </i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row pr-3 pl-3" if.bind="showSearch">
+            <div class="col-md-3" if.bind="user.roleId == 1 || user.roleId == 3">
+              <div class="form-group">
+                <label for="typeName" class="bmd-label-floating">סוג הזמנה</label>
+                <select class="form-control" id="typeName" value.bind="searchData.type" change.delegate="searchOrders()">
+                  <option value="0">הכל</option>
+                  <option repeat.for="type of metadata.OrderTypes" value.bind="type.id">${type.name}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="statusName" class="bmd-label-floating">סטטוס</label>
+                <select class="form-control" id="statusName" value.bind="searchData.status" change.delegate="searchOrders()">
+                  <option value="0">הכל</option>
+                  <option repeat.for="status of metadata.OrderStatus" value.bind="status.id">${status.name}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="businessId" class="bmd-label-floating">חברת שרברבים</label>
+                <select class="form-control" id="businessId" value.bind="searchData.businessId" change.delegate="searchOrders()">
+                  <option value="0">הכל</option>
+                  <option repeat.for="business of metadata.Businesses" value.bind="business.id">${business.name}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form if.bind="showSearch">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="clientId" class="bmd-label-floating">ת"ז לקוח</label>
+                    <input type="text" class="form-control" id="clientId" value.bind="searchData.clientId" blur.trigger="searchOrders()">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="claimNumber" class="bmd-label-floating">מספר תביעה</label>
+                    <input type="text" class="form-control" id="claimNumber" value.bind="searchData.claimNumber"
+                      blur.trigger="searchOrders()">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="policyNumber" class="bmd-label-floating">מספר פוליסה</label>
+                    <input type="text" class="form-control" id="policyNumber" value.bind="searchData.policyNumber"
+                      blur.trigger="searchOrders()">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="address" class="bmd-label-floating">כתובת</label>
+                    <input type="text" class="form-control" id="address" value.bind="searchData.address">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="date" class="bmd-label-floating">תאריך פתיחה</label>
+                    <input type="date" class="form-control date-input" id="date" value.bind="searchData.dateCreated"
+                      data-large-mode="true" data-format="d-m-Y" data-large-default="true" blur.trigger="searchOrders()">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th class="text-center"><i class="material-icons md-14">settings</i></th>
+                <th>מספר קריאה</th>
+                <th>מספר תביעה</th>
+                <th>מספר פוליסה</th>
+                <th if.bind="user.roleId == 1 || user.roleId == 3">חברה</th>
+                <th>סטטוס</th>
+                <th>תקלה</th>
+                <th>ת"ז לקוח</th>
+                <th>שם לקוח</th>
+                <th>כתובת</th>
+                <th>תאריך פתיחה</th>
+                <th>חברת שרברבים</th>
+                <th>תאריך שיבוץ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr repeat.for="order of orders" if.bind="searchData.address == '' || order.address.indexOf(searchData.address) != -1">
+                <th>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="handymenForOrder#${order.id}"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" click.trigger="findHandyman(order.id)"
+                    if.bind="order.status == 10">
+                    <i class="material-icons md-24">how_to_reg</i>
+                  </button>
+                  <div class="dropdown-menu text-center" aria-labelledby="handymenForOrder#${order.id}">
+                    <button class="dropdown-item" type="button" repeat.for="h of handymen" click.delegate="setHandyman(order.id, h.id)">${h.name}</button>
+                    <span class="text-right text-danger" if.bind="handymen.length == 0">לא נמצאו בעלי מקצוע</span>
+                  </div>
+                  <a class="btn btn-secondary" route-href="route: order-details; params.bind: {id:order.id}">
+                    <i class="material-icons">assignment</i>
+                  </a>
+                  <a class="btn btn-secondary" route-href="route: edit-order; params.bind: {id:order.id}">
+                    <i class="material-icons md-24">edit</i>
+                  </a>
+                </th>
+                <td>${order.id}</td>
+                <td>${order.claimNumber}</td>
+                <td>${order.policyNumber}</td>
+                <td if.bind="user.roleId == 1 || user.roleId == 3">${order.typeName}</td>
+                <td><span class.bind="order.status | classColor" class="badge badge-secondary">${order.statusName}</span></td>
+                <td>${order.problemName}</td>
+                <td>${order.clientId}</td>
+                <td>${order.clientName}</td>
+                <td>${order.address}</td>
+                <td>${order.dateCreated | dateFormat}</td>
+                <td>${order.businessName} <span if.bind="order.handymanId != 900"> - ${order.handymanName}</span></td>
+                <td>${order.etaDate | dateFormat} ${order.eta}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

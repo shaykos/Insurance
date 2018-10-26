@@ -1,0 +1,156 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col-md-8 d-block mx-auto">
+        <form>
+          <div class="card">
+            <h5 class="card-header">הוספת הזמנה חדשה</h5>
+            <div class="col-md-3" if.bind="user.roleId == 1 || user.roleId == 3">
+              <div class="form-group">
+                <label for="typeName" class="bmd-label-floating">סוג הזמנה</label>
+                <select class="form-control" id="typeName" value.bind="currentOrder.type">
+                  <option repeat.for="type of metadata.OrderTypes" value.bind="type.id">${type.name}</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="clientId" class="bmd-label-floating">ת"ז לקוח</label>
+                    <input type="text" class="form-control" id="clientId" value.bind="currentOrder.clientId" blur.trigger="getClientDetails()">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="claimNumber" class="bmd-label-floating">מספר תביעה</label>
+                    <input type="text" class="form-control" id="claimNumber" value.bind="currentOrder.claimNumber">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="policyNumber" class="bmd-label-floating">מספר פוליסה</label>
+                    <input type="text" class="form-control" id="policyNumber" value.bind="currentOrder.policyNumber">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="problemId" class="bmd-label-floating">סוג תקלה</label>
+                    <select class="form-control" id="problemId" value.bind="currentOrder.problemId">
+                      <option repeat.for="problem of metadata.Problems" value.bind="problem.id">${problem.name}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="deductible" class="bmd-label-floating">השתתפות עצמית</label>
+                    <input type="number" min="1" class="form-control" id="deductible" value.bind="currentOrder.deductible">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="businessId" class="bmd-label-floating">חברת שרברבים</label>
+                    <select class="form-control" id="businessId" value.bind="currentOrder.businessId">
+                      <option repeat.for="business of metadata.Businesses" value.bind="business.id">${business.name}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="etaDate" class="bmd-label-floating">תאריך הגעה רצוי</label>
+                    <input type="date" class="form-control date-input" id="etaDate" value.bind="currentOrder.etaDate" data-large-mode="true" data-format="d-m-Y" data-large-default="true">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="etaTime" class="bmd-label-floating">שעת הגעה</label>
+                    <select class="form-control" id="etaTime" value.bind="currentOrder.etaTime">
+                      <option repeat.for="hour of metadata.HoursOfWork" value.bind="hour.id">${hour.endTime} -
+                        ${hour.startTime}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h5 class="card-header">פרטי לקוח</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="name" class="bmd-label-floating">שם מלא</label>
+                    <input type="text" class="form-control" id="name" value.bind="currentOrder.name" readonly>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="phone" class="bmd-label-floating">טלפון 1</label>
+                    <input type="text" class="form-control" id="phone" value.bind="currentOrder.phone" readonly>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="cellPhone" class="bmd-label-floating">טלפון 2</label>
+                    <input type="text" class="form-control" id="cellPhone" value.bind="currentOrder.cellPhone" readonly>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <div class="switch">
+                      <label>
+                        האם הכתובת זהה?
+                        <input type="checkbox" checked change.delegate="toggleClientDetails($event)" value.bind="currentOrder.isSameAddress">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="city" class="bmd-label-floating">עיר</label>
+                    <input list="cities" type="text" class="form-control" id="city" value.bind="currentOrder.cityName">
+                    <datalist id="cities" >
+                        <option repeat.for="city of metadata.Cities">${city.name}</option>
+                      </datalist>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="street" class="bmd-label-floating">רחוב</label>
+                    <input type="text" class="form-control" id="street" value.bind="currentOrder.street">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="streetNumber" class="bmd-label-floating">מספר</label>
+                    <input type="number" min="1" class="form-control" id="streetNumber" value.bind="currentOrder.streetNumber">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="appartment" class="bmd-label-floating">דירה</label>
+                    <input type="number" min="0" class="form-control" id="appartment" value.bind="currentOrder.appartment">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="entrance" class="bmd-label-floating">כניסה</label>
+                    <input type="text" class="form-control" id="entrance" value.bind="currentOrder.entrance">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col text-left">
+                  <button class="btn btn-primary active" click.delegate="createOrder()">שמור</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>

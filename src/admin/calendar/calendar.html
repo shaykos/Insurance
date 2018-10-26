@@ -1,0 +1,90 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <require from="../../resources/value-converters/class-color"></require>
+  <require from="fullcalendar/dist/fullcalendar.min.css"></require>
+  <require from="fullcalendar-scheduler/dist/scheduler.min.css"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">יומן</h5>
+          <div class="row pr-3 pl-3">
+            <div class="col-md-3">
+              <!--if.bind="user.roleId == 1 || user.roleId == 3"-->
+              <div class="form-group">
+                <label for="typeName" class="bmd-label-floating">בחר בעל מקצוע</label>
+                <select class="form-control" id="typeName" value.bind="handymanId" change.delegate="getEvents()">
+                  <option value="0">כל בעלי המקצוע</option>
+                  <option css="background-color:${h.backgroundColor}; color:${h.textColor}" repeat.for="h of allHandymen"
+                    value.bind="h.id">${h.name}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-10 d-block mx-auto">
+                  <div id="calendar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="fullCalModal" tabindex="-1" role="dialog" aria-labelledby="fullCalModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">קריאה ${eventInfo.id} - ${eventInfo.problemName}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="modalBody" class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>שם לקוח: </strong>${eventInfo.clientName}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>טלפון: </strong>${eventInfo.phone}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>נייד: </strong>${eventInfo.cellPhone}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>כתובת מלאה: </strong>${eventInfo.address}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>תאריך הגעה: </strong>${eventInfo.etaDate | dateFormat}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>שעת הגעה: </strong>${eventInfo.eta}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>חברת שרברבים: </strong>${eventInfo.businessName}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>בעל מקצוע: </strong>${eventInfo.handymanName}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success font-weight-bold" data-dismiss="modal" click.delegate="goToEdit(eventInfo.id)">עריכה</button>
+          <button type="button" class="btn btn-info font-weight-bold" id="handymenForOrder#${eventInfo.id}"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" click.trigger="findHandyman(eventInfo.id)">שייך בעל מקצוע</button>
+          <div class="dropdown-menu text-center" aria-labelledby="handymenForOrder#${eventInfo.id}">
+            <button class="dropdown-item" type="button" repeat.for="h of handymen" click.delegate="setHandyman(eventInfo.id, h.id)">${h.name}</button>
+            <span class="text-right text-danger" if.bind="handymen.length == 0">לא נמצאו בעלי מקצוע</span>
+          </div>
+          <button type="button" class="btn btn-danger font-weight-bold" data-dismiss="modal">סגור</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
