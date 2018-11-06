@@ -4,6 +4,7 @@ import { notify } from '../../services/notification';
 
 @inject(HttpClient)
 export class EditOrder {
+  base = this;
   constructor(HttpClient) {
     this.httpClient = HttpClient;
     this.user = JSON.parse(sessionStorage.getItem('user'));
@@ -20,7 +21,6 @@ export class EditOrder {
   activate(params) {
     this.OrderDetails.id = params.id;
     this.getMetaData();
-    let base = this;
 
     $(document).on('click', '.removeImage', function () {
       base.removeImage($(this));

@@ -1,3 +1,4 @@
+import 'popper.js';
 import moment from 'moment';
 import 'moment/locale/he';
 import 'jquery';

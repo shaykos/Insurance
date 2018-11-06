@@ -83,9 +83,9 @@
           "text",
           "jquery",
           {
-            "name": "popper.js",
-            "main": "dist/umd/popper.js",
-            "path": "../node_modules/popper.js"
+            "name":"popper.js",
+            "path":"../node_modules/popper.js/dist/umd",
+            "main":"./popper.js"
           },
           {
             "name": "moment",
@@ -103,7 +103,7 @@
               "jquery",
               "popper.js"
             ],
-            "exports": "$",
+            "exports": ["$","Popper"],
             "resources": [
               "dist/css/bootstrap-material-design.min.css"
             ]

@@ -20,8 +20,8 @@ export function configure(aurelia) {
 
   httpClient.configure(config => {
     config
-      //.withBaseUrl((environment.debug) ? 'http://localhost:5000/api/' : '/api/')
-      .withBaseUrl('/api/')
+      .withBaseUrl((environment.debug) ? 'http://localhost:5000/api/' : '/api/')
+      //.withBaseUrl('/api/')
       .withDefaults({
         credentials: 'same-origin',
         headers: {
