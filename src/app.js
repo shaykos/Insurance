@@ -74,6 +74,8 @@ export class App {
       { route: 'order/edit/:id', name: 'edit-order', moduleId: './admin/edit-order/edit-order', title: 'עדכון קריאה', settings: { auth: true } },
       { route: 'order/details/:id', name: 'order-details', moduleId: './admin/order-details/order-details', title: 'פרטי קריאה', settings: { auth: true } },
       { route: 'calendar', name: 'calendar', moduleId: './admin/calendar/calendar', title: 'יומנים', settings: { auth: true } },
+      { route: 'companies', name: 'companies', moduleId: './admin/companies/companies', title: 'חברות ביטוח', settings: { auth: true, forRole: 1 } },
+      { route: 'company/new', name: 'add-company', moduleId: './admin/add-company/add-company', title: 'הוספת חברת ביטוח', settings: { auth: true, forRole: 1 } },
       { route: '404', name: '404', moduleId: './admin/not-found/not-found', title: '404' }
     ]);
 
@@ -88,6 +90,12 @@ class AuthorizeStep {
       if (!isLoggedIn) {
         return next.cancel(new Redirect('login'));
       }
+    }
+
+    if(navigationInstruction.getAllInstructions().some(i => i.config.settings.forRole)){
+      let user = JSON.parse(sessionStorage.getItem('user'));
+      if(navigationInstruction.config.settings.forRole != user.roleId)
+      return next.cancel(new Redirect('dashboard'));
     }
 
     return next();

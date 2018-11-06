@@ -1,0 +1,101 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <require from="../../resources/value-converters/class-color"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col">
+                <h5>חיפוש חברות ביטוח</h5>
+              </div>
+              <div class="col text-left">
+                <button type="button" class="btn btn-primary" click.delegate="showSearch = false" if.bind="showSearch">
+                  <i class="material-icons">
+                    keyboard_arrow_up
+                  </i>
+                </button>
+                <button type="button" class="btn btn-primary" click.delegate="showSearch = true" if.bind="!showSearch">
+                  <i class="material-icons">
+                    keyboard_arrow_down
+                  </i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row pr-3 pl-3" if.bind="showSearch">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="companyName" class="bmd-label-floating">שם חברת ביטוח</label>
+                <input id="companyName" class="form-control" value.bind="companySearch" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th><i class="material-icons md-14">settings</i></th>
+                <th>מספר חברת ביטוח</th>
+                <th>שם חברת ביטוח</th>
+                <th>לוגו חברת ביטוח</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr repeat.for="company of metadata.InsuranceCompanies" if.bind="companySearch == '' || company.name.indexOf(companySearch) != -1">
+                <td>
+                  <button class="btn btn-secondary" type="button" id="company#${company.id}" aria-haspopup="true"
+                    aria-expanded="false" click.trigger="showEditModal(company.id)" data-toggle="modal" data-target="#editCompany">
+                    <i class="material-icons md-24">photo</i>
+                  </button>
+                </td>
+                <td>${company.id}</td>
+                <td>${company.name}</td>
+                <td><img src="${company.logo}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="editCompany" tabindex="-1" role="dialog" aria-labelledby="fullCalModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">עריכת חברת הביטוח - ${selectedCompany.name}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="modalBody" class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col">
+                <div class="form-group">
+                  <input type="file" multiple class="form-control" accept="image/*" change.delegate="showImage($event)"id="imageUPloader" />
+                </div>
+              </div>
+              <img id="companyLogoPreview" src="${selectedCompany.logo}">
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger font-weight-bold" data-dismiss="modal">סגור</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>

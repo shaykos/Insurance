@@ -1,0 +1,45 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col-md-8 d-block mx-auto">
+        <form>
+          <div class="card">
+            <h5 class="card-header">הוספת חברת ביטוח</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="clientId" class="bmd-label-floating">שם חברת ביטוח</label>
+                    <input type="text" class="form-control" id="clientId" value.bind="company.name">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="claimNumber" class="bmd-label-floating">לוגו</label>
+                    <div class="form-group">
+                      <input type="file" multiple class="form-control" accept="image/*" change.delegate="showImage($event)"
+                        id="imageUPloader" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <img id="addCompanyLogoPreview" src="${company.logo}" style="width:100%;">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col text-left">
+                  <button class="btn btn-primary active" click.delegate="AddCompany()">שמור</button>
+                  <button class="btn btn-default active" click.delegate="clearForm()">נקה</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</template>

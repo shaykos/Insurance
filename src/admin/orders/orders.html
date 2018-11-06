@@ -120,7 +120,7 @@
             </thead>
             <tbody>
               <tr repeat.for="order of orders" if.bind="searchData.address == '' || order.address.indexOf(searchData.address) != -1">
-                <th>
+                <td>
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="handymenForOrder#${order.id}"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" click.trigger="findHandyman(order.id)"
                     if.bind="order.status == 10">
@@ -136,7 +136,7 @@
                   <a class="btn btn-secondary" route-href="route: edit-order; params.bind: {id:order.id}">
                     <i class="material-icons md-24">edit</i>
                   </a>
-                </th>
+                </td>
                 <td>${order.id}</td>
                 <td>${order.claimNumber}</td>
                 <td>${order.policyNumber}</td>

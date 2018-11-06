@@ -34,6 +34,21 @@
             יומן עבודה
           </a>
         </li>
+        <li class="nav-item ml-2" if.bind="user.roleId == 1">
+          <a class="btn btn-warning active dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+            aria-expanded="false"  href="#"> 
+            <i class="material-icons md-24" style="position: absolute;">
+              calendar_today
+            </i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            חברות ביטוח
+          </a>
+          <div class="dropdown-menu">
+              <a class="dropdown-item" route-href="add-company">הוסף חברת ביטוח</a>
+              <div class="dropdown-divider"></div>
+            <a class="dropdown-item" route-href="companies">כל חברות הביטוח</a>
+          </div>
+        </li>
       </ul>
     </div>
     <div>
