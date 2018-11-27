@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item ml-2">
-          <a class="btn btn-success active" route-href="new-order">
+          <a class="btn btn-success active" route-href="add-order">
             <i class="material-icons md-24" style="position: absolute;">note_add</i>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             יצירת קריאה חדשה
@@ -36,18 +36,42 @@
         </li>
         <li class="nav-item ml-2" if.bind="user.roleId == 1">
           <a class="btn btn-warning active dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-            aria-expanded="false"  href="#"> 
+            aria-expanded="false" href="#">
             <i class="material-icons md-24" style="position: absolute;">
-              calendar_today
+              local_convenience_store
             </i>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             חברות ביטוח
           </a>
           <div class="dropdown-menu">
-              <a class="dropdown-item" route-href="add-company">הוסף חברת ביטוח</a>
-              <div class="dropdown-divider"></div>
+            <a class="dropdown-item" route-href="add-company">הוסף חברת ביטוח</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" route-href="companies">כל חברות הביטוח</a>
           </div>
+        </li>
+        <li class="nav-item ml-2" if.bind="user.roleId == 1">
+          <a class="btn btn-secondary active dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+            aria-expanded="false" href="#">
+            <i class="material-icons md-24" style="position: absolute;">
+              supervisor_account
+            </i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            בעלי מקצוע
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" route-href="add-handyman">הוסף בעל מקצוע</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" route-href="handymen">כל בעלי המקצוע</a>
+          </div>
+        </li>
+        <li class="nav-item ml-2">
+          <a class="btn btn-danger active" route-href="categories">
+            <i class="material-icons md-24" style="position: absolute;">
+              layers
+            </i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            קטגוריות ותקלות
+          </a>
         </li>
       </ul>
     </div>

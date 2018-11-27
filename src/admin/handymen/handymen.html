@@ -1,3 +1,82 @@
 <template>
-  <h1>${message}</h1>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <require from="../../resources/value-converters/class-color"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col">
+                <h5>חיפוש בעלי מקצוע</h5>
+              </div>
+              <div class="col text-left">
+                <button type="button" class="btn btn-primary" click.delegate="showSearch = false" if.bind="showSearch">
+                  <i class="material-icons">
+                    keyboard_arrow_up
+                  </i>
+                </button>
+                <button type="button" class="btn btn-primary" click.delegate="showSearch = true" if.bind="!showSearch">
+                  <i class="material-icons">
+                    keyboard_arrow_down
+                  </i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row pr-3 pl-3" if.bind="showSearch">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="companyName" class="bmd-label-floating">שם בעל מקצוע</label>
+                <input id="companyName" class="form-control" value.bind="searchHandyman" />
+              </div>
+              <fieldset class="form-group">
+                  <label for="exampleInputEmail1" class="bmd-label-floating">label-floating</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1">
+                  <span class="bmd-help">We'll never share your email with anyone else.</span>
+                </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th><i class="material-icons md-14">settings</i></th>
+                <th>מזהה בעל מקצוע</th>
+                <th>שם מלא</th>
+                <th>כתובת אימייל</th>
+                <th>האם שכיר?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr repeat.for="handyman of handymen" if.bind="searchHandyman == '' || handyman.name.indexOf(searchHandyman) != -1">
+                <td>
+                  <a class="btn btn-secondary" route-href="route: edit-handyman; params.bind: {id:handyman.id}">
+                    <i class="material-icons">edit</i>
+                  </a>
+                  <button class="btn btn-danger" type="button" 
+                    aria-haspopup="true" aria-expanded="false" click.trigger="deleteHandyman(handyman.id)">
+                    <i class="material-icons md-24">delete</i>
+                  </button>
+                </td>
+                <td>${handyman.id}</td>
+                <td>${handyman.name}</td>
+                <td>${handyman.email}</td>
+                <td><i class="material-icons" if.bind="handyman.isEmployee">done</i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </template>

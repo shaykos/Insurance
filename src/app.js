@@ -70,12 +70,16 @@ export class App {
       { route: 'login', name: 'login', moduleId: './admin/login/login', title: 'התחבר' },
       { route: 'dashboard', name: 'dashboard', moduleId: './admin/dashboard/dashboard', title: 'ראשי', settings: { auth: true } },
       { route: 'orders', name: 'orders', moduleId: './admin/orders/orders', title: 'קריאות', settings: { auth: true } },
-      { route: 'order/new', name: 'new-order', moduleId: './admin/new-order/new-order', title: 'יצירת קריאה חדשה', settings: { auth: true } },
+      { route: 'order/new', name: 'add-order', moduleId: './admin/add-order/add-order', title: 'יצירת קריאה חדשה', settings: { auth: true } },
       { route: 'order/edit/:id', name: 'edit-order', moduleId: './admin/edit-order/edit-order', title: 'עדכון קריאה', settings: { auth: true } },
       { route: 'order/details/:id', name: 'order-details', moduleId: './admin/order-details/order-details', title: 'פרטי קריאה', settings: { auth: true } },
       { route: 'calendar', name: 'calendar', moduleId: './admin/calendar/calendar', title: 'יומנים', settings: { auth: true } },
       { route: 'companies', name: 'companies', moduleId: './admin/companies/companies', title: 'חברות ביטוח', settings: { auth: true, forRole: 1 } },
       { route: 'company/new', name: 'add-company', moduleId: './admin/add-company/add-company', title: 'הוספת חברת ביטוח', settings: { auth: true, forRole: 1 } },
+      { route: 'handymen', name: 'handymen', moduleId: './admin/handymen/handymen', title: 'בעלי מקצוע', settings: { auth: true, forRole: 1 } },
+      { route: 'handyman/new', name: 'add-handyman', moduleId: './admin/add-handyman/add-handyman', title: 'הוספת בעל מקצוע', settings: { auth: true, forRole: 1 } },
+      { route: 'handyman/edit/:id', name: 'edit-handyman', moduleId: './admin/edit-handyman/edit-handyman', title: 'עדכון פרטי בעל מקצוע', settings: { auth: true, forRole: 1 } },
+      { route: 'categories', name: 'categories', moduleId: './admin/categories/categories', title: 'ניהול קטגוריות ותקלות', settings: { auth: true, forRole: 1 } },
       { route: '404', name: '404', moduleId: './admin/not-found/not-found', title: '404' }
     ]);
 

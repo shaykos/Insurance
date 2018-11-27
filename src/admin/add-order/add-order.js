@@ -3,7 +3,7 @@ import { inject } from 'aurelia-framework';
 import {notify} from '../../services/notification';
 
 @inject(HttpClient)
-export class NewOrder {
+export class AddOrder {
   constructor(HttpClient) {
     this.httpClient = HttpClient;
     this.user = JSON.parse(sessionStorage.getItem('user'));

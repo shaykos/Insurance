@@ -1,0 +1,101 @@
+<template>
+  <require from="../../resources/elements/app-nav/app-nav"></require>
+  <require from="../../resources/value-converters/date-format"></require>
+  <app-nav></app-nav>
+  <div class="container-fluid">
+    <div class="row pt-2">
+      <div class="col-md-8 d-block mx-auto">
+        <form>
+          <div class="card">
+            <h5 class="card-header">הוספת בעל מקצוע</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="handymanName" class="bmd-label-floating">שם מלא</label>
+                    <input type="text" class="form-control" id="handymanName" value.bind="handyman.name">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="emailAddress" class="bmd-label-floating">כתובת מייל</label>
+                    <input type="email" class="form-control" id="emailAddress" value.bind="handyman.email">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="password" class="bmd-label-floating">סיסמה</label>
+                    <input type="password" class="form-control" id="password" value.bind="handyman.password">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" checked.bind="handyman.isEmployee"> האם שכיר?
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="backgroundColor">צבע רקע ביומן שיבוצים</label>
+                    <input type="color" class="form-control" id="backgroundColor" value.bind="handyman.backgroundColor"
+                      change.delegate="changeBG()">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="color">צבע טקסט ביומן שיבוצים</label>
+                    <input type="color" class="form-control" id="color" value.bind="handyman.color" change.delegate="changeColor()">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label id="handymanNameExample"><br>${handyman.name}</label>
+                  </div>
+                </div>
+                <hr>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="category" class="bmd-label-floating">קטגוריות</label>
+                    <select class="form-control" id="category" value.bind="handyman.categories" multiple>
+                      <option repeat.for="category of metadata.Categories" model.bind="category.id">${category.name}</option>
+                    </select>
+                    <span class="bmd-help">החזק את המקש CTRL לבחירה מרובה</span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="area" class="bmd-label-floating">אזורי פעילות</label>
+                    <select class="form-control" id="area" value.bind="handyman.areas" multiple>
+                      <option repeat.for="area of metadata.Areas" model.bind="area.id">${area.name}</option>
+                    </select>
+                    <span class="bmd-help">החזק את המקש CTRL לבחירה מרובה</span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="business" class="bmd-label-floating">חברות</label>
+                    <select class="form-control" id="business" value.bind="handyman.businesses" multiple>
+                      <option repeat.for="business of metadata.Businesses" model.bind="business.id">${business.name}</option>
+                    </select>
+                    <span class="bmd-help">החזק את המקש CTRL לבחירה מרובה</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col text-left">
+                  <button class="btn btn-primary active" click.delegate="EditHandyman()">שמור</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
